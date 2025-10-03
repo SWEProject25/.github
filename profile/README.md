@@ -1,12 +1,44 @@
-## Hi there 👋
+# Hankers
 
-<!--
+A Twitter-like social network built as part of our Software Engineering course project, demonstrating modern software development practices and team collaboration.
 
-**Here are some ideas to get you started:**
+## 🎯 Project Overview
 
-🙋‍♀️ A short introduction - what is your organization all about?
-🌈 Contribution guidelines - how can the community get involved?
-👩‍💻 Useful resources - where can the community find your docs? Is there anything else the community should know?
-🍿 Fun facts - what does your team eat for breakfast?
-🧙 Remember, you can do mighty things with the power of [Markdown](https://docs.github.com/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
--->
+This project implements core social networking features similar to Twitter, including user authentication, posts (tweets), timelines, interactions, and more. Built using industry-standard tools and methodologies.
+
+## 🏗️ Architecture
+
+- **Backend**: RESTful API with comprehensive authentication & authorization
+- **Frontend**: Responsive web application with AJAX-driven interactions
+- **Cross-Platform**: Mobile application supporting Android/iOS
+- **DevOps**: Containerized deployment with CI/CD pipelines
+- **Testing**: Unit tests (95%+ coverage), E2E tests (90%+ coverage), and stress testing
+
+## 👥 Team Structure
+
+- **Team Leader**: Project coordination & integration
+- **Backend Team**: API development & database design (5 members)
+- **Frontend Team**: Web interface & responsive design (5 members)
+- **Cross-Platform Team**: Mobile application (5 members)
+- **Testing Team**: Quality assurance & automated testing (2 members)
+- **DevOps**: Deployment, monitoring, and infrastructure
+
+## 🛠️ Tech Stack
+
+*Details will be added as technologies are finalized in Phase 0*
+
+## 🚀 Getting Started
+
+*Setup instructions will be provided after initial development phase*
+
+## 📝 License
+
+*License information will be specified based on dependencies used*
+
+## 🤝 Contributing
+
+This is an educational project. Team members should follow the established code style guides and submit regular progress reports.
+
+---
+
+**Course**: Software Engineering | **Semester**: 2025
