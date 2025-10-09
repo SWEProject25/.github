@@ -1,0 +1,103 @@
+name: "🚀 Phase [X] Deliverable"
+description: "Template for submitting a project phase deliverable (0–4)"
+title: "Phase [X]: [Short title, e.g., System Design / Deployment]"
+labels: ["phase", "deliverable"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🧩 Phase [X] Deliverable
+
+        Please fill in all required details for this phase.
+        Make sure to attach or link deliverables (docs, diagrams, reports, etc.).
+
+  - type: input
+    id: phase_number
+    attributes:
+      label: "📅 Phase Number"
+      description: "Enter the phase (0–4)"
+      placeholder: "e.g., 0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: objectives
+    attributes:
+      label: "🎯 Objectives"
+      description: "Summarize the main objectives of this phase"
+      placeholder: |
+        - Define tools and setup repos
+        - Design system architecture
+        - Implement 20% of backend and frontend
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: deliverables
+    attributes:
+      label: "📦 Deliverables"
+      description: "List all items delivered in this phase"
+      placeholder: |
+        - ER Diagram
+        - API Documentation
+        - Phase Report
+        - Prototype Deployment
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: progress
+    attributes:
+      label: "📊 Progress Summary"
+      description: "Summarize progress and completion percentage"
+      placeholder: |
+        - Backend: 40%
+        - Frontend: 30%
+        - Testing: 10%
+        - Deployment: 20%
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: blockers
+    attributes:
+      label: "⚠️ Blockers / Issues"
+      description: "List any problems, dependencies, or delays"
+      placeholder: |
+        - Waiting for backend endpoints
+        - Docker build failing on CI
+      render: markdown
+
+  - type: textarea
+    id: decisions
+    attributes:
+      label: "🧠 Decisions Made"
+      description: "List technical or process-related decisions made this phase"
+      placeholder: |
+        - Switched from PostgreSQL to MongoDB
+        - Adopted MVC pattern
+      render: markdown
+
+  - type: textarea
+    id: next_steps
+    attributes:
+      label: "📈 Next Steps"
+      description: "What’s planned for the next phase?"
+      placeholder: |
+        - Complete authentication testing
+        - Deploy prototype to AWS
+      render: markdown
+
+  - type: textarea
+    id: attachments
+    attributes:
+      label: "🔗 Links / Attachments"
+      description: "Add links to Google Drive, deployed app, diagrams, etc."
+      placeholder: |
+        - [Drive Folder](https://drive.google.com/...)
+        - [Live Prototype](https://...)
+        - [ER Diagram](https://...)
+      render: markdown
