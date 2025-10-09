@@ -48,40 +48,6 @@ body:
       required: true
 
   - type: textarea
-    id: progress
-    attributes:
-      label: "📊 Progress Summary"
-      description: "Summarize progress and completion percentage"
-      placeholder: |
-        - Backend: 40%
-        - Frontend: 30%
-        - Testing: 10%
-        - Deployment: 20%
-      render: markdown
-    validations:
-      required: true
-
-  - type: textarea
-    id: blockers
-    attributes:
-      label: "⚠️ Blockers / Issues"
-      description: "List any problems, dependencies, or delays"
-      placeholder: |
-        - Waiting for backend endpoints
-        - Docker build failing on CI
-      render: markdown
-
-  - type: textarea
-    id: decisions
-    attributes:
-      label: "🧠 Decisions Made"
-      description: "List technical or process-related decisions made this phase"
-      placeholder: |
-        - Switched from PostgreSQL to MongoDB
-        - Adopted MVC pattern
-      render: markdown
-
-  - type: textarea
     id: next_steps
     attributes:
       label: "📈 Next Steps"
@@ -89,15 +55,4 @@ body:
       placeholder: |
         - Complete authentication testing
         - Deploy prototype to AWS
-      render: markdown
-
-  - type: textarea
-    id: attachments
-    attributes:
-      label: "🔗 Links / Attachments"
-      description: "Add links to Google Drive, deployed app, diagrams, etc."
-      placeholder: |
-        - [Drive Folder](https://drive.google.com/...)
-        - [Live Prototype](https://...)
-        - [ER Diagram](https://...)
       render: markdown
