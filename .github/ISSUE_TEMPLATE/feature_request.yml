@@ -1,0 +1,51 @@
+name: ✨ Feature Request
+description: Suggest or track a new feature to be implemented
+title: "✨ Feature: <feature name>"
+labels: ["feature"]
+body:
+  - type: input
+    id: module
+    attributes:
+      label: 🧩 Module
+      description: Which part of the system does this feature belong to?
+      placeholder: e.g. Authentication, User Profile, Tweets
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 📝 Description
+      description: Briefly describe what this feature does and why it’s needed.
+      placeholder: e.g. Allow users to reset their password via email link.
+    validations:
+      required: true
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: ✅ Tasks
+      description: List the steps or sub-tasks needed to complete this feature.
+      placeholder: |
+        - [ ] Design API endpoint
+        - [ ] Implement backend logic
+        - [ ] Connect frontend
+        - [ ] Write tests
+      render: markdown
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 🔥 Priority
+      options:
+        - Low
+        - Medium
+        - High
+      default: 2
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 💬 Additional Notes
+      description: Add context, related issues, or links if needed.
+      placeholder: e.g. Depends on Phase 2 completion or Issue #12.
