@@ -31,7 +31,7 @@ body:
         - [ ] Implement backend logic
         - [ ] Connect frontend
         - [ ] Write tests
-      render: markdown
+      required: true
 
   - type: dropdown
     id: priority
