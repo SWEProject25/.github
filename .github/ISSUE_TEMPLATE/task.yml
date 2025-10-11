@@ -1,0 +1,60 @@
+name: 🛠️ Task
+description: Create a sub-issue or task for tracking specific work items
+title: "🛠️ Task: <task name>"
+labels: ["task"]
+body:
+  - type: input
+    id: parent_issue
+    attributes:
+      label: 🔗 Parent Issue
+      description: Link to the parent feature or issue this task belongs to
+      placeholder: e.g. #12
+    validations:
+      required: false
+
+  - type: input
+    id: module
+    attributes:
+      label: 🧩 Module
+      description: Which part of the system does this task belong to?
+      placeholder: e.g. Authentication, User Profile, Tweets
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 📝 Description
+      description: Briefly describe what this task involves and what needs to be done.
+      placeholder: e.g. Implement password validation logic in the backend.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: ✅ Acceptance Criteria
+      description: List the conditions that must be met for this task to be considered complete.
+      placeholder: |
+        - [ ] Password must be at least 8 characters
+        - [ ] Must include uppercase, lowercase, and number
+        - [ ] Validation errors are returned properly
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 🔥 Priority
+      options:
+        - Low
+        - Medium
+        - High
+      default: 1
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 💬 Additional Notes
+      description: Add context, technical details, or related resources if needed.
+      placeholder: e.g. Use bcrypt library for hashing, reference documentation at...
