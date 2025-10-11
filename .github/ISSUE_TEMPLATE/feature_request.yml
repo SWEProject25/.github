@@ -31,7 +31,8 @@ body:
         - [ ] Implement backend logic
         - [ ] Connect frontend
         - [ ] Write tests
-      required: true
+      validations:
+        required: true
 
   - type: dropdown
     id: priority
