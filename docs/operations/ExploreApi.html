@@ -1,0 +1,167 @@
+<div class="main-content">
+  <h2><a name=""></a></h2>
+  <p>This is the  API</p>
+
+  <h2><a name="exploreCategoryCategoryNamePostsGet"></a>exploreCategoryCategoryNamePostsGet</h2>
+  <hr>
+  <p></p>
+  <p>Retrieve a list of posts for a given category, such as sports, news, or entertainment.</p>
+  <h3 class="section">URL</h3>
+  <code>https://api.xclone.com/v1/explore/category/{categoryName}/posts</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="PaginatedPostsResponse"><a href="">PaginatedPostsResponse</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      
+      <span class="param-in">Path: </span>
+      
+      
+      <span class="param-name">categoryName</span>
+      <span class="param-type">String</span>
+      
+      <p class="param-description">The name of the category to fetch posts for.</p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">limit</span>
+      <span class="param-type">Integer</span>
+      
+      <p class="param-description">The maximum number of posts to return.</p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">page</span>
+      <span class="param-type">Integer</span>
+      
+      <p class="param-description">The page number for pagination, starting from 1.</p>
+	  </li>
+  </ul>
+  <h2><a name="exploreCategoryCategoryNameTrendsGet"></a>exploreCategoryCategoryNameTrendsGet</h2>
+  <hr>
+  <p></p>
+  <p>Retrieves a list of trending topics for a given category.</p>
+  <h3 class="section">URL</h3>
+  <code>https://api.xclone.com/v1/explore/category/{categoryName}/trends</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="PaginatedTrendsResponse"><a href="">PaginatedTrendsResponse</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      
+      <span class="param-in">Path: </span>
+      
+      
+      <span class="param-name">categoryName</span>
+      <span class="param-type">String</span>
+      
+      <p class="param-description">The name of the category to fetch trends for.</p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">limit</span>
+      <span class="param-type">Integer</span>
+      
+      <p class="param-description">The maximum number of trends to return.</p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">page</span>
+      <span class="param-type">Integer</span>
+      
+      <p class="param-description">The page number for pagination, starting from 1.</p>
+	  </li>
+  </ul>
+  <h2><a name="exploreForYouPostsGet"></a>exploreForYouPostsGet</h2>
+  <hr>
+  <p></p>
+  <p>Retrieve a list of posts for the user&#x27;s personalized \&quot;For You\&quot; feed, based on their interests and follows.</p>
+  <h3 class="section">URL</h3>
+  <code>https://api.xclone.com/v1/explore/for-you/posts</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="PaginatedPostsResponse"><a href="">PaginatedPostsResponse</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">limit</span>
+      <span class="param-type">Integer</span>
+      
+      <p class="param-description">The maximum number of posts to return.</p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">page</span>
+      <span class="param-type">Integer</span>
+      
+      <p class="param-description">The page number for pagination, starting from 1.</p>
+	  </li>
+  </ul>
+  <h2><a name="exploreForYouTrendsGet"></a>exploreForYouTrendsGet</h2>
+  <hr>
+  <p></p>
+  <p>Retrieves a list of trends tailored to the user&#x27;s interests.</p>
+  <h3 class="section">URL</h3>
+  <code>https://api.xclone.com/v1/explore/for-you/trends</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="PaginatedTrendsResponse"><a href="">PaginatedTrendsResponse</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">limit</span>
+      <span class="param-type">Integer</span>
+      
+      <p class="param-description">The maximum number of trends to return.</p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">page</span>
+      <span class="param-type">Integer</span>
+      
+      <p class="param-description">The page number for pagination, starting from 1.</p>
+	  </li>
+  </ul>
+</div>

@@ -1,0 +1,46 @@
+
+<h2>Posts_body</h2>
+<ul class="parameter">
+  <li class="param-required-true">userId : Long
+    <br/>The ID of the user creating the post.
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-true">content : String
+    <br/>The main text content of the post.
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-true">type : String
+    <br/>The type of post (e.g., original post, reply, quote).
+      <dl class="param-enum">
+        <dt>Enum:
+            <dd>POST</dd>
+            <dd>REPLY</dd>
+            <dd>QUOTE</dd>
+        </dt>
+      </dl>
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">parentId : Long
+    <br/>The ID of the parent post if this is a reply or quote. Required if type is REPLY or QUOTE.
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-true">visibility : String
+    <br/>Who can see the post.
+      <dl class="param-enum">
+        <dt>Enum:
+            <dd>EVERY_ONE</dd>
+            <dd>FOLLOWERS</dd>
+            <dd>MENTIONED</dd>
+        </dt>
+      </dl>
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">mediaFiles : List
+    <br/>One or more media files (images, videos) to attach to the post.
+  </li>
+</ul>

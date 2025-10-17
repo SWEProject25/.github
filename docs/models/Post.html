@@ -1,0 +1,61 @@
+
+<h2>Post</h2>
+<ul class="parameter">
+  <li class="param-required-true">id : Long
+    <br/>
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-true">userId : Long
+    <br/>
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-true">content : String
+    <br/>
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-true">type : String
+    <br/>
+      <dl class="param-enum">
+        <dt>Enum:
+            <dd>POST</dd>
+            <dd>REPLY</dd>
+            <dd>QUOTE</dd>
+        </dt>
+      </dl>
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">parentId : Long
+    <br/>
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-true">visibility : String
+    <br/>
+      <dl class="param-enum">
+        <dt>Enum:
+            <dd>EVERY_ONE</dd>
+            <dd>FOLLOWERS</dd>
+            <dd>MENTIONED</dd>
+        </dt>
+      </dl>
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">media : List
+    <br/>A list of media files associated with this post.
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-true">createdAt : Date
+    <br/>
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-true">updatedAt : Date
+    <br/>
+  </li>
+</ul>
