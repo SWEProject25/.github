@@ -1,0 +1,2674 @@
+openapi: 3.0.3
+info:
+  title: X Clone API
+  description: |-
+    Unified API documentation for the X Clone application, covering Authentication, Posts, User Interactions, User Profiles, Notifications, and more.
+    This API follows the JSend specification for newer endpoints, with a custom `metadata` field for additional response information.
+  version: 1.3.0
+
+servers:
+  - url: https://api.xclone.com/v1
+    description: Production server
+  - url: http://localhost:3000/v1
+    description: Development server
+
+tags:
+  - name: Auth
+    description: Endpoints for user registration, login, and authentication management.
+  - name: Explore
+    description: Endpoints for discovering personalized and categorized content.
+  - name: User Profile
+    description: Endpoints for managing user profiles, settings, images, and banners.
+  - name: Users
+    description: Endpoints related to following, blocking, and muting users.
+  - name: Notifications
+    description: Endpoints for retrieving user notifications.
+  - name: Posts
+    description: Operations related to creating, retrieving, and deleting posts (including replies and quotes).
+  - name: Post Interactions
+    description: Endpoints for liking, reposting, and summarizing posts.
+  - name: Hashtags & Trends
+    description: Endpoints for searching posts, hashtags, and retrieving trending topics.
+  - name: Messages
+    description: Endpoints for managing direct messages.
+  - name: Conversations
+    description: Endpoints related to user conversations.
+
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register a new user
+      description: Creates a new user account with the provided details.
+      operationId: AuthController_register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequestDto'
+      responses:
+        '201':
+          description: User successfully registered
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          user:
+                            $ref: '#/components/schemas/AuthUserResponse'
+        '400':
+          description: Bad request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailResponse'
+        '409':
+          description: Conflict - User already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailResponse'
+  
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login using email and password
+      description: Login with the provided details.
+      operationId: AuthController_login
+      requestBody:
+        required: true
+        description: User login credentials
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequestDto'
+      responses:
+        '200':
+          description: User successfully logged in
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/AuthUserResponse'
+        '400':
+          description: Bad request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailResponse'
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/me:
+    get:
+      tags:
+        - Auth
+      summary: Get current user information
+      description: Returns profile details of the currently authenticated user.
+      operationId: AuthController_getMe
+      responses:
+        '200':
+          description: User profile successfully fetched
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/AuthUserResponse'
+        '401':
+          description: Unauthorized - Token missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: Logout user
+      description: Clears authentication state for the user.
+      operationId: AuthController_logout
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /auth/check-email:
+    post:
+      tags:
+        - Auth
+      summary: Check if an email already exists
+      description: Verifies whether the given email is already registered in the system.
+      operationId: AuthController_checkEmail
+      requestBody:
+        required: true
+        description: Email to be checked
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "test@example.com"
+      responses:
+        '200':
+          description: Email is available for registration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '409':
+          description: Email already exists in the system
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailResponse'
+
+  /auth/verification-otp:
+    post:
+      tags:
+        - Auth
+      summary: Generate and send a verification OTP
+      description: Generates a new OTP and sends it to the user's email for verification.
+      operationId: AuthController_generateVerificationEmail
+      responses:
+        '200':
+          description: Verification OTP sent successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /auth/resend-otp:
+    post:
+      tags:
+        - Auth
+      summary: Resend the verification OTP
+      description: Resends a new verification OTP to the user's email.
+      operationId: AuthController_resendVerificationEmail
+      responses:
+        '200':
+          description: Verification OTP resent successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /auth/verify-otp:
+    post:
+      tags:
+        - Auth
+      summary: Verify the email OTP
+      description: Verifies the provided OTP for the given email address.
+      operationId: AuthController_verifyEmailOtp
+      responses:
+        '200':
+          description: Email verified successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid or expired OTP
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailResponse'
+  
+  /auth/refresh-token:
+    post:
+      tags: [Auth]
+      summary: Refresh access token
+      description: >
+        Issues a new access token using a refresh token.
+        Follows the JSend format for all responses.
+      responses:
+        200:
+          description: New access token issued successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      accessToken:
+                        type: string
+                        description: New JWT access token
+        401:
+          description: Invalid or expired refresh token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailResponse'
+        500:
+          description: Server error while refreshing token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/forgot-password:
+    post:
+      tags: [Auth]
+      summary: Request password reset email
+      description: Sends an email with reset instructions.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email: { type: string, format: email }
+      responses:
+        200:
+          description: Reset email sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailResponse'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/reset-password:
+    post:
+      tags: [Auth]
+      summary: Reset password
+      description: Resets the user’s password using a token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, newPassword]
+              properties:
+                token: { type: string }
+                newPassword: { type: string, format: password }
+      responses:
+        200:
+          description: Password reset successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        400:
+          description: Invalid or expired token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailResponse'
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/oauth/{provider}:
+    get:
+      tags: [Auth]
+      summary: OAuth login redirect
+      description: Redirects to an OAuth provider (Google, Facebook, or GitHub).
+      parameters:
+        - name: provider
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [google, facebook, github]
+      responses:
+        302:
+          description: Redirect to OAuth consent page
+        400:
+          description: Invalid provider
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailResponse'
+  
+  /explore/for-you/posts:
+    get:
+      tags:
+        - Explore
+      summary: Get personalized posts ("For You")
+      description: Retrieve a list of posts for the user's personalized "For You" feed, based on their interests and follows.
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: The maximum number of posts to return.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: The page number for pagination, starting from 1.
+      responses:
+        '200':
+          description: A list of personalized posts.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPostsResponse'
+        '500':
+          description: Internal server error
+
+  /explore/for-you/trends:
+    get:
+      tags:
+        - Explore
+      summary: Get personalized trends ("For You")
+      description: Retrieves a list of trends tailored to the user's interests.
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+          description: The maximum number of trends to return.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: The page number for pagination, starting from 1.
+      responses:
+        '200':
+          description: A list of personalized trends.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTrendsResponse'
+        '500':
+          description: Internal server error
+
+  /explore/category/{categoryName}/posts:
+    get:
+      tags:
+        - Explore
+      summary: Get posts for a specific category
+      description: Retrieve a list of posts for a given category, such as sports, news, or entertainment.
+      parameters:
+        - in: path
+          name: categoryName
+          schema:
+            type: string
+            enum: [sports, news, entertainment]
+          required: true
+          description: The name of the category to fetch posts for.
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: The maximum number of posts to return.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: The page number for pagination, starting from 1.
+      responses:
+        '200':
+          description: A list of posts for the specified category.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPostsResponse'
+        '404':
+          description: Category not found
+        '500':
+          description: Internal server error
+
+  /explore/category/{categoryName}/trends:
+    get:
+      tags:
+        - Explore
+      summary: Get trends for a specific category
+      description: Retrieves a list of trending topics for a given category.
+      parameters:
+        - in: path
+          name: categoryName
+          schema:
+            type: string
+            enum: [sports, news, entertainment]
+          required: true
+          description: The name of the category to fetch trends for.
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+          description: The maximum number of trends to return.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: The page number for pagination, starting from 1.
+      responses:
+        '200':
+          description: A list of trends for the specified category.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTrendsResponse'
+        '404':
+          description: Category not found
+        '500':
+          description: Internal server error
+          
+  /users/me/username:
+    patch:
+      tags: [User Profile]
+      summary: Update username
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username]
+              properties:
+                username: { type: string }
+      responses:
+        200:
+          description: Username updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        400:
+          description: Invalid username
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailResponse'
+
+  /users/me/password:
+    patch:
+      tags: [User Profile]
+      summary: Update password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [oldPassword, newPassword]
+              properties:
+                oldPassword: { type: string }
+                newPassword: { type: string, format: password }
+      responses:
+        200:
+          description: Password updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        400:
+          description: Invalid old password or new password format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailResponse'
+
+  /users/me/email:
+    get:
+      tags: [User Profile]
+      summary: Get user email
+      responses:
+        200:
+          description: Returns user email
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          email: { type: string, format: email }
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      tags: [User Profile]
+      summary: Update email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [newEmail]
+              properties:
+                newEmail: { type: string, format: email }
+      responses:
+        200:
+          description: Email update requested
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        400:
+          description: Invalid email format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailResponse'
+
+  /users/search:
+    get:
+      tags:
+        - User Profile
+      summary: Search for users
+      description: Searches for users by their username or display name with a partial match.
+      parameters:
+        - name: q
+          in: query
+          description: The search query string.
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: The page number for pagination, starting from 1.
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          description: The number of results to return per page.
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+      responses:
+        '200':
+          description: A successful response with a list of users.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/UserProfile'
+                      metadata:
+                        $ref: '#/components/schemas/PaginationMetadata'
+              example:
+                status: success
+                data:
+                  - userId: 1
+                    username: "gamal_dev"
+                    profile:
+                      displayName: "Gamal Developer"
+                      profileImageURL: "https://example.com/image.jpg"
+                      bio: "Backend Developer"
+                metadata:
+                  page: 1
+                  limit: 20
+                  totalItems: 1
+                  totalPages: 1
+
+  /users/{userId}/profile:
+    get:
+      tags:
+        - User Profile
+      summary: Get user profile details
+      description: Retrieves the detailed profile information for a specific user.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The unique integer identifier of the user.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful retrieval of a user's profile.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/UserProfile'
+        '404':
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailResponse'
+              example:
+                status: fail
+                data:
+                  message: "User profile not found."
+
+    patch:
+      tags:
+        - User Profile
+      summary: Update user profile
+      description: Updates text-based details for the authenticated user's profile.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The unique identifier of the user to update. Must be the authenticated user.
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                displayName:
+                  type: string
+                bio:
+                  type: string
+                location:
+                  type: string
+                website:
+                  type: string
+            example:
+              displayName: "Gamal El-Din"
+              bio: "Senior Backend Engineer"
+              location: "Cairo, Egypt"
+              website: "https://gamal.dev"
+      responses:
+        '200':
+          description: Profile updated successfully.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/UserProfile'
+        '403':
+          description: Forbidden. User cannot update another user's profile.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailResponse'
+
+  /users/{userId}/profile/image:
+    post:
+      tags:
+        - User Profile
+      summary: Update profile picture
+      description: Uploads a new profile picture for the authenticated user.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The unique identifier of the user.
+          schema:
+            type: integer
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Profile image updated successfully.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          profileImageURL:
+                            type: string
+                            format: uri
+              example:
+                status: success
+                data:
+                  profileImageURL: "https://cdn.example.com/new-profile.jpg"
+
+    delete:
+      tags:
+        - User Profile
+      summary: Delete profile picture
+      description: Deletes the current profile picture and restores the default.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The unique identifier of the user.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Profile image deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              example:
+                status: success
+                data: null
+
+  /users/{userId}/profile/banner:
+    post:
+      tags:
+        - User Profile
+      summary: Update profile banner
+      description: Uploads a new profile banner for the authenticated user.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The unique identifier of the user.
+          schema:
+            type: integer
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                banner:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Profile banner updated successfully.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          bannerImageURL:
+                            type: string
+                            format: uri
+              example:
+                status: success
+                data:
+                  bannerImageURL: "https://cdn.example.com/new-banner.jpg"
+
+    delete:
+      tags:
+        - User Profile
+      summary: Delete profile banner
+      description: Deletes the current profile banner and restores the default.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The unique identifier of the user.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Profile banner deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              example:
+                status: success
+                data: null
+
+  /users/{userId}/notifications:
+    get:
+      tags:
+        - Notifications
+      summary: Get user notifications
+      description: Retrieves a list of notifications for the authenticated user.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The ID of the user requesting notifications.
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: The number of notifications to return.
+          schema:
+            type: integer
+            default: 30
+      responses:
+        '200':
+          description: A list of notifications.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Notification'
+                      metadata:
+                        $ref: '#/components/schemas/PaginationMetadata'
+              example:
+                status: success
+                data:
+                  - notificationId: 101
+                    type: "like"
+                    isRead: false
+                    createdAt: "2025-10-26T10:00:00Z"
+                    actor:
+                      userId: 2
+                      username: "some_user"
+                      profile:
+                        displayName: "Some User"
+                        profileImageURL: "..."
+                metadata:
+                  limit: 30
+                  totalItems: 1
+
+  /users/{userId}/notifications/unseen-count:
+    get:
+      tags:
+        - Notifications
+      summary: Get unseen notifications count
+      description: Retrieves the count of notifications the user has not read yet.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The ID of the user.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The count of unseen notifications.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          count:
+                            type: integer
+              example:
+                status: success
+                data:
+                  count: 15
+  
+  /users/{id}/follow:
+    post:
+      tags: [Users]
+      summary: Follow a user
+      description: Follow a user by their ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the user to follow
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successfully followed the user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: success }
+                  data:
+                    type: object
+                    properties:
+                      followingId: { type: string, example: "12345" }
+                      followerId: { type: string, example: "67890" }
+                      followedAt: { type: string, format: date-time }
+        400:
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: { type: string, example: Cannot follow yourself }
+
+    delete:
+      tags: [Users]
+      summary: Unfollow a user
+      description: Unfollow a user by their ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successfully unfollowed user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: success }
+                  data:
+                    type: object
+                    properties:
+                      unfollowedId: { type: string, example: "12345" }
+        400:
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: { type: string, example: User was not being followed }
+
+  /users/{id}/followers:
+    get:
+      tags: [Users]
+      summary: Get followers list
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+        - name: limit
+          in: query
+          schema: { type: integer, example: 10 }
+        - name: page
+          in: query
+          schema: { type: integer, example: 1 }
+      responses:
+        200:
+          description: List of followers
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: success }
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        userId: { type: string }
+                        username: { type: string }
+                        displayName: { type: string }
+                        profileImageURL: { type: string }
+                        bio: { type: string }
+                        followedAt: { type: string, format: date-time }
+                  metadata:
+                    $ref: '#/components/schemas/PaginationMetadata'
+        400:
+          description: Invalid user ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: { type: string, example: User not found }
+
+  /users/{id}/following:
+    get:
+      tags: [Users]
+      summary: Get following list
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+        - name: limit
+          in: query
+          schema: { type: integer, example: 10 }
+        - name: page
+          in: query
+          schema: { type: integer, example: 1 }
+      responses:
+        200:
+          description: List of users the given user is following
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: success }
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        userId: { type: string }
+                        username: { type: string }
+                        displayName: { type: string }
+                        profileImageURL: { type: string }
+                        bio: { type: string }
+                        followedAt: { type: string, format: date-time }
+                  metadata:
+                    $ref: '#/components/schemas/PaginationMetadata'
+        400:
+          description: Invalid user ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: { type: string, example: User not found }
+
+  /users/{id}/block:
+    post:
+      tags: [Users]
+      summary: Block a user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        200:
+          description: Successfully blocked the user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: success }
+                  data:
+                    type: object
+                    properties:
+                      blockedId: { type: string, example: "12345" }
+                      blockedAt: { type: string, format: date-time }
+        400:
+          description: Cannot block yourself
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: { type: string, example: Cannot block yourself }
+
+    delete:
+      tags: [Users]
+      summary: Unblock a user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        200:
+          description: Successfully unblocked user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: success }
+                  data:
+                    type: object
+                    properties:
+                      unblockedId: { type: string, example: "12345" }
+        400:
+          description: User not blocked
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: { type: string, example: User was not blocked }
+
+  /users/blocks:
+    get:
+      tags: [Users]
+      summary: Get list of blocked users
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, example: 10 }
+        - name: page
+          in: query
+          schema: { type: integer, example: 1 }
+      responses:
+        200:
+          description: List of blocked users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: success }
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        userId: { type: string }
+                        username: { type: string }
+                        displayName: { type: string }
+                        profileImageURL: { type: string }
+                        bio: { type: string }
+                        blockedAt: { type: string, format: date-time }
+                  metadata:
+                    $ref: '#/components/schemas/PaginationMetadata'
+        400:
+          description: Request error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: { type: string, example: Could not fetch blocked users }
+
+  /users/{id}/mute:
+    post:
+      tags: [Users]
+      summary: Mute a user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        200:
+          description: User muted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: success }
+                  data:
+                    type: object
+                    properties:
+                      mutedId: { type: string, example: "98765" }
+                      mutedAt: { type: string, format: date-time }
+        400:
+          description: Cannot mute yourself
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: { type: string, example: Cannot mute yourself }
+
+    delete:
+      tags: [Users]
+      summary: Unmute a user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        200:
+          description: Successfully unmuted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: success }
+                  data:
+                    type: object
+                    properties:
+                      unmutedId: { type: string, example: "98765" }
+        400:
+          description: User not muted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: { type: string, example: User was not muted }
+
+  /users/muted:
+    get:
+      tags: [Users]
+      summary: Get list of muted users
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, example: 10 }
+        - name: page
+          in: query
+          schema: { type: integer, example: 1 }
+      responses:
+        200:
+          description: Muted users list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: success }
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        userId: { type: string }
+                        username: { type: string }
+                        profileImageURL: { type: string }
+                        bio: { type: string }
+                        mutedAt: { type: string, format: date-time }
+                  metadata:
+                    $ref: '#/components/schemas/PaginationMetadata'
+        400:
+          description: Request error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: { type: string, example: Could not fetch muted users }
+
+  /posts:
+    post:
+      tags:
+        - Posts
+      summary: Create a new post, reply, or quote with optional media
+      description: Allows a user to create a new original post, reply to an existing post, or quote an existing post, optionally including media files.
+      requestBody: # THIS SECTION IS UPDATED FOR MULTIPART AND INTEGER IDs
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - userId
+                - content
+                - type
+                - visibility
+              properties:
+                userId:
+                  type: integer
+                  format: int64
+                  description: The ID of the user creating the post.
+                  example: 1
+                content:
+                  type: string
+                  description: The main text content of the post.
+                  minLength: 1
+                  maxLength: 280
+                  example: "this is super duper post content"
+                type:
+                  type: string
+                  enum: [ "POST", "REPLY", "QUOTE" ]
+                  description: The type of post (e.g., original post, reply, quote).
+                  example: "POST"
+                parentId:
+                  type: integer
+                  format: int64
+                  nullable: true
+                  description: The ID of the parent post if this is a reply or quote. Required if type is REPLY or QUOTE.
+                  example: null
+                visibility:
+                  type: string
+                  enum: [ "EVERY_ONE", "FOLLOWERS", "MENTIONED" ]
+                  description: Who can see the post.
+                  example: "EVERY_ONE"
+                mediaFiles: # Property for files
+                  type: array
+                  items:
+                    type: string
+                    format: binary # Indicates a file upload
+                  description: One or more media files (images, videos) to attach to the post.
+                  minItems: 0
+                  maxItems: 4 # Common limit for social media posts (e.g., 4 images)
+      responses:
+        '200':
+          description: Post (or reply/quote) created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "200"
+                  data:
+                    allOf: # Combines the Post schema with media info in response
+                      - $ref: '#/components/schemas/Post'
+                      - type: object
+                        properties:
+                          media:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/Media'
+                            description: Details of the media files uploaded with the post.
+        '400':
+          description: Invalid request payload (e.g., reply missing parentId, invalid type, unsupported media format)
+        '500':
+          description: Internal server error
+    get:
+      tags:
+        - Posts
+      summary: Get all posts
+      description: Retrieve a list of posts, with optional filtering by user ID, hashtag, and pagination.
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: integer
+            format: int64
+          description: Filter posts by the ID of the user who created them.
+          example: 123
+        - in: query
+          name: hashtag
+          schema:
+            type: string
+          description: Filter posts by a specific hashtag (e.g., swagger).
+          example: 'swagger'
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: The maximum number of posts to return.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: The page number for pagination, starting from 1.
+      responses:
+        '200':
+          description: A list of posts.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPostsResponse' # Changed to use paginated response
+        '500':
+          description: Internal server error
+
+  /posts/search: # UPDATED ENDPOINT PATH
+    get:
+      tags:
+        - Posts
+      summary: Search posts matching a string
+      description: Searches posts for content, usernames, or other metadata matching the provided string.
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: The search string to match against post content, usernames, etc.
+          example: 'api design'
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: The maximum number of posts to return.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: The page number for pagination, starting from 1.
+      responses:
+        '200':
+          description: A list of posts matching the search query.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPostsResponse'
+        '400':
+          description: Missing search query parameter 'q'
+        '500':
+          description: Internal server error
+
+  /posts/timeline/home:
+    get:
+      tags:
+        - Posts
+      summary: Get posts for home feed (timeline)
+      description: Retrieve a list of posts for the authenticated user's home timeline, typically from users they follow and suggested content.
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: The maximum number of posts to return.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: The page number for pagination, starting from 1.
+      responses:
+        '200':
+          description: A list of posts for the home timeline.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPostsResponse'
+        '500':
+          description: Internal server error
+
+  /posts/profile/{userId}:
+    get:
+      tags:
+        - Posts
+      summary: Get posts for a user's profile
+      description: Retrieve a list of posts created by a specific user, excluding replies or reposts by default.
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: The ID of the user whose profile posts to retrieve.
+          example: 123
+        - in: query
+          name: include_replies
+          schema:
+            type: boolean
+            default: false
+          description: If true, include replies made by the user in the results.
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: The maximum number of posts to return.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: The page number for pagination, starting from 1.
+      responses:
+        '200':
+          description: A list of profile posts.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPostsResponse'
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+
+  /posts/mentions:
+    get:
+      tags:
+        - Posts
+      summary: Get posts mentioning the authenticated user
+      description: Retrieve a list of posts that mention the authenticated user's username.
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: The maximum number of posts to return.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: The page number for pagination, starting from 1.
+      responses:
+        '200':
+          description: A list of posts mentioning the user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPostsResponse'
+        '500':
+          description: Internal server error
+
+  /posts/liked/{userId}:
+    get:
+      tags:
+        - Posts
+      summary: Get posts liked by a user
+      description: Retrieve a list of posts that the specified user has liked.
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: The ID of the user whose liked posts to retrieve.
+          example: 123
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: The maximum number of posts to return.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: The page number for pagination, starting from 1.
+      responses:
+        '200':
+          description: A list of posts liked by the user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPostsResponse'
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+
+  /hashtags/trends: # UPDATED ENDPOINT PATH
+    get:
+      tags:
+        - Hashtags & Trends
+      summary: Get available global trends (hashtags)
+      description: Retrieves a list of current global trending topics and their associated volume.
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+          description: The maximum number of trends to return.
+      responses:
+        '200':
+          description: A list of current trends.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "200"
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Trend'
+        '500':
+          description: Internal server error
+
+  /hashtags/{hashtag}/posts: # UPDATED ENDPOINT PATH
+    get:
+      tags:
+        - Hashtags & Trends
+      summary: Get posts within a specific trend/hashtag
+      description: Retrieves posts associated with a specific hashtag.
+      parameters:
+        - in: path
+          name: hashtag
+          schema:
+            type: string
+          required: true
+          description: The hashtag (trend name) to retrieve posts for (e.g., #AI). Note: The '#' symbol is usually omitted in the path parameter and added internally.
+          example: 'OpenAPI'
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: The maximum number of posts to return.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: The page number for pagination, starting from 1.
+      responses:
+        '200':
+          description: A list of posts associated with the trend.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPostsResponse'
+        '404':
+          description: Trend not found
+        '500':
+          description: Internal server error
+
+  /hashtags/search: # UPDATED ENDPOINT PATH (Using query style for search)
+    get:
+      tags:
+        - Hashtags & Trends
+      summary: Search for hashtags
+      description: Search for trending or common hashtags that match a query string.
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: The search string to match against hashtags.
+          example: 'dev'
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+          description: The maximum number of hashtags to return.
+      responses:
+        '200':
+          description: A list of matching hashtags.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "200"
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Hashtag'
+        '400':
+          description: Missing search query parameter 'q'
+        '500':
+          description: Internal server error
+
+  /posts/{postId}:
+    parameters:
+      - in: path
+        name: postId
+        schema:
+          type: integer
+          format: int64
+        required: true
+        description: The unique identifier of the post.
+        example: 123
+    get:
+      tags:
+        - Posts
+      summary: Get a post by ID
+      description: Retrieve details for a single post using its unique ID.
+      responses:
+        '200':
+          description: Post details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostResponse'
+        '404':
+          description: Post not found
+        '500':
+          description: Internal server error
+    delete:
+      tags:
+        - Posts
+      summary: Delete a post by ID
+      description: Deletes a specific post. User must be the owner of the post.
+      responses:
+        '204':
+          description: Post deleted successfully (No Content)
+        '403':
+          description: Forbidden - User does not own the post
+        '404':
+          description: Post not found
+        '500':
+          description: Internal server error
+
+  /posts/{postId}/replies:
+    get:
+      tags:
+        - Posts
+      summary: Get replies to a specific post
+      description: Retrieve a list of posts that are replies to the specified parent post.
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: The ID of the parent post for which to retrieve replies.
+          example: 123
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: The maximum number of replies to return.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: The page number for pagination, starting from 1.
+      responses:
+        '200':
+          description: A list of reply posts.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPostsResponse' # Changed to use paginated response
+        '404':
+          description: Parent post not found
+        '500':
+          description: Internal server error
+
+  /posts/{postId}/likes:
+    post:
+      tags:
+        - Post Interactions
+      summary: Toggle like on a post
+      description: Toggles a like for the specified post by the authenticated user. If liked, it unlikes; if unliked, it likes.
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: The unique identifier of the post to like/unlike.
+          example: 123
+      responses:
+        '200':
+          description: Post like status toggled successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "200"
+                  message:
+                    type: string
+                    example: "Post liked"
+        '404':
+          description: Post not found
+        '500':
+          description: Internal server error
+    get:
+      tags:
+        - Post Interactions
+      summary: Get list of users who liked a post
+      description: Retrieves a list of user IDs who have liked the specified post.
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: The ID of the post to get likers for.
+          example: 123
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: The maximum number of likers to return.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: The page number for pagination, starting from 1.
+      responses:
+        '200':
+          description: A list of user IDs who liked the post.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "200"
+                  data:
+                    type: array
+                    items:
+                      type: integer
+                      format: int64
+                      description: The ID of a user who liked the post.
+                  metadata:
+                    $ref: '#/components/schemas/PaginationMetadata'
+                example:
+                  status: "200"
+                  data: [1, 2, 3] # Example user IDs
+                  metadata:
+                    totalItems: 3
+                    page: 1
+                    limit: 20
+                    totalPages: 1
+        '404':
+          description: Post not found
+        '500':
+          description: Internal server error
+
+  /posts/{postId}/reposts:
+    post:
+      tags:
+        - Post Interactions
+      summary: Toggle repost on a post
+      description: Toggles a repost entry for the specified post by the authenticated user. If already reposted, it removes the repost; otherwise, it creates one.
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: The ID of the post to repost/un-repost.
+          example: 123
+      responses:
+        '200':
+          description: Post repost status toggled successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "200"
+                  message:
+                    type: string
+                    example: "Post reposted"
+        '404':
+          description: Post not found
+        '500':
+          description: Internal server error
+    get:
+      tags:
+        - Post Interactions
+      summary: Get list of users who reposted a post
+      description: Retrieves a list of user IDs who have reposted the specified post.
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: The ID of the post to get reposters for.
+          example: 123
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: The maximum number of reposters to return.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: The page number for pagination, starting from 1.
+      responses:
+        '200':
+          description: A list of user IDs who reposted the post.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "200"
+                  data:
+                    type: array
+                    items:
+                      type: integer
+                      format: int64
+                      description: The ID of a user who reposted the post.
+                  metadata:
+                    $ref: '#/components/schemas/PaginationMetadata'
+                example:
+                  status: "200"
+                  data: [4, 5, 6] # Example user IDs
+                  metadata:
+                    totalItems: 3
+                    page: 1
+                    limit: 20
+                    totalPages: 1
+        '404':
+          description: Post not found
+        '500':
+          description: Internal server error
+  /posts/{postId}/summary:
+    get:
+      tags:
+        - Post Interactions
+      summary: Get AI summary of a post
+      description: Retrieves an AI-generated concise summary of the specified post's content.
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: integer
+            format: int64
+          required: true
+          description: The unique identifier of the post to summarize.
+          example: 123
+      responses:
+        '200':
+          description: Successfully retrieved post summary.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "200"
+                  data:
+                    type: object
+                    properties:
+                      postId:
+                        type: integer
+                        format: int64
+                        description: The ID of the summarized post.
+                      summary:
+                        type: string
+                        description: The AI-generated summary of the post content.
+                        example: "User discussed a super duper post content, focusing on its visibility to everyone."
+        '404':
+          description: Post not found
+        '500':
+          description: Internal server error
+
+  /messages/{conversationId}:
+    get:
+      tags: [Messages]
+      summary: Get messages from a conversation
+      parameters:
+        - name: conversationId
+          in: path
+          required: true
+          schema: { type: string }
+        - name: limit
+          in: query
+          schema: { type: integer, example: 20 }
+        - name: page
+          in: query
+          schema: { type: integer, example: 1 }
+      responses:
+        200:
+          description: List of messages
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: success }
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        messageId: { type: string }
+                        senderId: { type: string }
+                        text: { type: string }
+                        sentAt: { type: string, format: date-time }
+                  metadata:
+                    $ref: '#/components/schemas/PaginationMetadata'
+        400:
+          description: Invalid conversation ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: { type: string, example: Conversation not found }
+
+    post:
+      tags: [Messages]
+      summary: Send a new message
+      parameters:
+        - name: conversationId
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text: { type: string, example: "Hey, how’s it going?" }
+      responses:
+        201:
+          description: Message sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: success }
+                  data:
+                    type: object
+                    properties:
+                      messageId: { type: string }
+                      senderId: { type: string }
+                      text: { type: string }
+                      sentAt: { type: string, format: date-time }
+        400:
+          description: Failed to send message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: { type: string, example: Message could not be sent }
+  /conversations:
+    get:
+      tags: [Conversations]
+      summary: Get list of conversations
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, example: 10 }
+        - name: page
+          in: query
+          schema: { type: integer, example: 1 }
+      responses:
+        200:
+          description: List of conversations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: success }
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        conversationId: { type: string }
+                        user:
+                          type: object
+                          properties:
+                            id: { type: string }
+                            username: { type: string }
+                            displayName: { type: string }
+                            profileImageURL: { type: string }
+                        lastMessage: { type: string }
+                        updatedAt: { type: string, format: date-time }
+                  metadata:
+                    $ref: '#/components/schemas/PaginationMetadata'
+        400:
+          description: Failed to fetch conversations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: { type: string, example: Could not retrieve conversations }
+
+  /conversations/unseen:
+    get:
+      tags: [Conversations]
+      summary: Get number of unseen conversations
+      responses:
+        200:
+          description: Number of unseen conversations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: success }
+                  data:
+                    type: object
+                    properties:
+                      unseenCount: { type: integer, example: 3 }
+        400:
+          description: Request error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: { type: string, example: Could not fetch unseen count }
+
+components:
+  schemas:
+    # JSend Base Schemas
+    SuccessResponse:
+      type: object
+      required:
+        - status
+        - data
+      properties:
+        status:
+          type: string
+          enum: [success]
+        data:
+          nullable: true
+          description: "Response payload. Can be an object, array, or null."
+    FailResponse:
+      type: object
+      required:
+        - status
+        - data
+      properties:
+        status:
+          type: string
+          enum: [fail]
+        data:
+          type: object
+    ErrorResponse:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          enum: [error]
+        message:
+          type: string
+        code:
+          type: integer
+        data:
+          type: object
+
+    # Auth Schemas
+    RegisterRequestDto:
+      type: object
+      required:
+        - name
+        - email
+        - password
+        - birthDate
+      properties:
+        name:
+          type: string
+          description: The name for the user.
+          example: Mohaned Albaz
+          minLength: 3
+          maxLength: 30
+        email:
+          type: string
+          description: The email address of the user.
+          example: mohmaedalbaz@gmail.com
+          format: email
+        password:
+          type: string
+          description: The password for the user account (must include uppercase, lowercase, number, and special character).
+          example: Password123!
+          minLength: 8
+          maxLength: 50
+          format: password
+        birthDate:
+          type: string
+          description: The birth date of the user.
+          example: '2004-01-01'
+          format: date
+          
+    LoginRequestDto:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          example: mohamedalbaz@example.com
+          description: User email address.
+        password:
+          type: string
+          example: Test1234!
+          description: User password (min 8 characters).
+
+    AuthUserResponse:
+      type: object
+      required:
+        - username
+        - createdAt
+      properties:
+        username:
+          type: string
+          example: albazMo90
+          description: The unique username of the user.
+        email:
+          type: string
+          example: mohamedalbaz@gmail.com
+          description: Email address of the user.
+        role:
+          type: string
+          example: User
+          description: Role assigned to the user.
+        name:
+          type: string
+          example: Mohamed Albaz
+          description: Full name of the user.
+        birthDate:
+          type: string
+          example: '2004-01-01'
+          description: Birth date of the user.
+          format: date
+        profileImageUrl:
+          type: string
+          nullable: true
+          format: uri
+          example: null
+          description: Profile image URL of the user.
+        bannerImageUrl:
+          type: string
+          nullable: true
+          format: uri
+          example: null
+          description: Banner image URL of the user.
+        bio:
+          type: string
+          nullable: true
+          example: "bio"
+          description: Short bio or description of the user.
+        location:
+          type: string
+          nullable: true
+          example: "Egypt"
+          description: User location.
+        website:
+          type: string
+          nullable: true
+          format: uri
+          example: null
+          description: User’s personal website URL.
+        createdAt:
+          format: date-time
+          type: string
+          example: '2025-10-15T21:10:02.000Z'
+          description: Account creation date.
+
+    # Data Models
+    UserProfile:
+      type: object
+      properties:
+        userId:
+          type: integer
+        username:
+          type: string
+        profile:
+          type: object
+          properties:
+            displayName:
+              type: string
+            profileImageURL:
+              type: string
+              format: uri
+            bannerImageURL:
+              type: string
+              format: uri
+            bio:
+              type: string
+            location:
+              type: string
+            website:
+              type: string
+              format: uri
+            birthDate:
+              type: string
+              format: date
+            createdAt:
+              type: string
+              format: date-time
+
+    Notification:
+      type: object
+      properties:
+        notificationId:
+          type: integer
+        type:
+          type: string
+          enum: [like, repost, follow, mention, reply]
+        isRead:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        actor:
+          description: The user who triggered the notification.
+          $ref: '#/components/schemas/UserProfile'
+        post:
+          description: The post related to the notification (if applicable).
+          nullable: true
+          type: object
+          properties:
+            postId:
+              type: integer
+            content:
+              type: string
+
+    # Existing Schemas
+    Post:
+      type: object
+      required:
+        - id
+        - userId
+        - content
+        - type
+        - visibility
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        userId:
+          type: integer
+          format: int64
+          example: 1
+        content:
+          type: string
+        type:
+          type: string
+          enum: [ "POST", "REPLY", "QUOTE" ]
+        parentId:
+          type: integer
+          format: int64
+          nullable: true
+          example: null
+        visibility:
+          type: string
+          enum: [ "EVERY_ONE", "FOLLOWERS", "MENTIONED" ]
+        media: # Added media array directly into the Post schema
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+          description: A list of media files associated with this post.
+          minItems: 0
+          example: []
+        createdAt:
+          type: string
+          format: date-time
+          example: "2023-10-27T10:00:00Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2023-10-27T10:00:00Z"
+
+    PostResponse:
+      type: object
+      required:
+        - status
+        - data
+      properties:
+        status:
+          type: string
+          example: "200"
+        data:
+          $ref: '#/components/schemas/Post' # Use the Post schema for the data part
+
+    Media:
+      type: object
+      required:
+        - mediaUrl
+        - type
+        - createdAt
+      properties:
+        mediaUrl:
+          type: string
+          format: uri
+          description: URL to the hosted media file.
+          example: "https://your-cdn.com/posts/123/media/456.jpg"
+        type:
+          type: string
+          enum: [ "IMAGE", "VIDEO", "GIF", "AUDIO" ]
+          description: The type of media content.
+          example: "IMAGE"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2023-10-27T10:01:00Z"
+
+    PaginationMetadata:
+      type: object
+      properties:
+        totalItems:
+          type: integer
+          description: Total number of items available.
+          example: 1
+        page:
+          type: integer
+          description: The current page number.
+          example: 1
+        limit:
+          type: integer
+          description: Number of items per page.
+          example: 10
+        totalPages:
+          type: integer
+          description: Total number of pages.
+          example: 1
+
+    PaginatedPostsResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "200"
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Post'
+        metadata:
+          $ref: '#/components/schemas/PaginationMetadata'
+      example:
+        status: "200"
+        data:
+          - id: 1
+            userId: 1
+            content: "this is super duper post content"
+            type: "POST"
+            parentId: null
+            visibility: "EVERY_ONE"
+            media: []
+            createdAt: "2023-10-27T10:00:00Z"
+            updatedAt: "2023-10-27T10:00:00Z"
+        metadata:
+          totalItems: 1
+          page: 1
+          limit: 10
+          totalPages: 1
+
+    PaginatedTrendsResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "200"
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Trend'
+        metadata:
+          $ref: '#/components/schemas/PaginationMetadata'
+      example:
+        status: "200"
+        data:
+          - hashtag: "OpenAPI"
+            volume: 2500
+            country: "Global"
+        metadata:
+          totalItems: 1
+          page: 1
+          limit: 10
+          totalPages: 1
+
+    Trend: # Schema for a single trend item
+      type: object
+      required:
+        - hashtag
+        - volume
+      properties:
+        hashtag:
+          type: string
+          description: The trending topic/hashtag text (without the #).
+          example: "AIRevolution"
+        volume:
+          type: integer
+          description: The number of posts associated with this trend in the last hour/day.
+          example: 15400
+        country:
+          type: string
+          nullable: true
+          description: Optional country scope for the trend.
+          example: "Global"
+      example:
+        hashtag: "OpenAPI"
+        volume: 2500
+        country: "Global"
+
+    Hashtag: # Schema for a single hashtag in search results
+      type: object
+      required:
+        - hashtag
+        - postCount
+      properties:
+        hashtag:
+          type: string
+          description: The hashtag text (including the # symbol).
+          example: "#TechTalk"
+        postCount:
+          type: integer
+          description: The total number of posts associated with this hashtag.
+          example: 12345
+      example:
+        hashtag: "#developer"
+        postCount: 98765
