@@ -75,7 +75,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FailResponse'
-  
+
   /auth/login:
     post:
       tags:
@@ -175,7 +175,7 @@ paths:
                 email:
                   type: string
                   format: email
-                  example: "test@example.com"
+                  example: 'test@example.com'
       responses:
         '200':
           description: Email is available for registration
@@ -240,7 +240,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FailResponse'
-  
+
   /auth/refresh-token:
     post:
       tags: [Auth]
@@ -368,13 +368,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FailResponse'
-  
+
   /explore/for-you/posts:
     get:
       tags:
         - Explore
-      summary: Get personalized posts ("For You")
-      description: Retrieve a list of posts for the user's personalized "For You" feed, based on their interests and follows.
+      summary: Get personalized posts ('For You')
+      description: Retrieve a list of posts for the user's personalized 'For You' feed, based on their interests and follows.
       parameters:
         - in: query
           name: limit
@@ -405,7 +405,7 @@ paths:
     get:
       tags:
         - Explore
-      summary: Get personalized trends ("For You")
+      summary: Get personalized trends ('For You')
       description: Retrieves a list of trends tailored to the user's interests.
       parameters:
         - in: query
@@ -667,11 +667,11 @@ paths:
                 status: success
                 data:
                   - userId: 1
-                    username: "gamal_dev"
+                    username: 'gamal_dev'
                     profile:
-                      displayName: "Gamal Developer"
-                      profileImageURL: "https://example.com/image.jpg"
-                      bio: "Backend Developer"
+                      displayName: 'Gamal Developer'
+                      profileImageURL: 'https://example.com/image.jpg'
+                      bio: 'Backend Developer'
                 metadata:
                   page: 1
                   limit: 20
@@ -712,7 +712,7 @@ paths:
               example:
                 status: fail
                 data:
-                  message: "User profile not found."
+                  message: 'User profile not found.'
 
     patch:
       tags:
@@ -742,10 +742,10 @@ paths:
                 website:
                   type: string
             example:
-              displayName: "Gamal El-Din"
-              bio: "Senior Backend Engineer"
-              location: "Cairo, Egypt"
-              website: "https://gamal.dev"
+              displayName: 'Gamal El-Din'
+              bio: 'Senior Backend Engineer'
+              location: 'Cairo, Egypt'
+              website: 'https://gamal.dev'
       responses:
         '200':
           description: Profile updated successfully.
@@ -806,7 +806,7 @@ paths:
               example:
                 status: success
                 data:
-                  profileImageURL: "https://cdn.example.com/new-profile.jpg"
+                  profileImageURL: 'https://cdn.example.com/new-profile.jpg'
 
     delete:
       tags:
@@ -872,7 +872,7 @@ paths:
               example:
                 status: success
                 data:
-                  bannerImageURL: "https://cdn.example.com/new-banner.jpg"
+                  bannerImageURL: 'https://cdn.example.com/new-banner.jpg'
 
     delete:
       tags:
@@ -936,15 +936,15 @@ paths:
                 status: success
                 data:
                   - notificationId: 101
-                    type: "like"
+                    type: 'like'
                     isRead: false
-                    createdAt: "2025-10-26T10:00:00Z"
+                    createdAt: '2025-10-26T10:00:00Z'
                     actor:
                       userId: 2
-                      username: "some_user"
+                      username: 'some_user'
                       profile:
-                        displayName: "Some User"
-                        profileImageURL: "..."
+                        displayName: 'Some User'
+                        profileImageURL: '...'
                 metadata:
                   limit: 30
                   totalItems: 1
@@ -981,7 +981,7 @@ paths:
                 status: success
                 data:
                   count: 15
-  
+
   /users/{id}/follow:
     post:
       tags: [Users]
@@ -1006,8 +1006,8 @@ paths:
                   data:
                     type: object
                     properties:
-                      followingId: { type: string, example: "12345" }
-                      followerId: { type: string, example: "67890" }
+                      followingId: { type: string, example: '12345' }
+                      followerId: { type: string, example: '67890' }
                       followedAt: { type: string, format: date-time }
         400:
           description: Invalid request
@@ -1041,7 +1041,7 @@ paths:
                   data:
                     type: object
                     properties:
-                      unfollowedId: { type: string, example: "12345" }
+                      unfollowedId: { type: string, example: '12345' }
         400:
           description: Invalid request
           content:
@@ -1167,7 +1167,7 @@ paths:
                   data:
                     type: object
                     properties:
-                      blockedId: { type: string, example: "12345" }
+                      blockedId: { type: string, example: '12345' }
                       blockedAt: { type: string, format: date-time }
         400:
           description: Cannot block yourself
@@ -1199,7 +1199,7 @@ paths:
                   data:
                     type: object
                     properties:
-                      unblockedId: { type: string, example: "12345" }
+                      unblockedId: { type: string, example: '12345' }
         400:
           description: User not blocked
           content:
@@ -1274,7 +1274,7 @@ paths:
                   data:
                     type: object
                     properties:
-                      mutedId: { type: string, example: "98765" }
+                      mutedId: { type: string, example: '98765' }
                       mutedAt: { type: string, format: date-time }
         400:
           description: Cannot mute yourself
@@ -1306,7 +1306,7 @@ paths:
                   data:
                     type: object
                     properties:
-                      unmutedId: { type: string, example: "98765" }
+                      unmutedId: { type: string, example: '98765' }
         400:
           description: User not muted
           content:
@@ -1387,12 +1387,12 @@ paths:
                   description: The main text content of the post.
                   minLength: 1
                   maxLength: 280
-                  example: "this is super duper post content"
+                  example: 'this is super duper post content'
                 type:
                   type: string
-                  enum: [ "POST", "REPLY", "QUOTE" ]
+                  enum: ['POST', 'REPLY', 'QUOTE']
                   description: The type of post (e.g., original post, reply, quote).
-                  example: "POST"
+                  example: 'POST'
                 parentId:
                   type: integer
                   format: int64
@@ -1401,9 +1401,9 @@ paths:
                   example: null
                 visibility:
                   type: string
-                  enum: [ "EVERY_ONE", "FOLLOWERS", "MENTIONED" ]
+                  enum: ['EVERY_ONE', 'FOLLOWERS', 'MENTIONED']
                   description: Who can see the post.
-                  example: "EVERY_ONE"
+                  example: 'EVERY_ONE'
                 mediaFiles: # Property for files
                   type: array
                   items:
@@ -1422,7 +1422,7 @@ paths:
                 properties:
                   status:
                     type: string
-                    example: "200"
+                    example: '200'
                   data:
                     allOf: # Combines the Post schema with media info in response
                       - $ref: '#/components/schemas/Post'
@@ -1701,7 +1701,7 @@ paths:
                 properties:
                   status:
                     type: string
-                    example: "200"
+                    example: '200'
                   data:
                     type: array
                     items:
@@ -1782,7 +1782,7 @@ paths:
                 properties:
                   status:
                     type: string
-                    example: "200"
+                    example: '200'
                   data:
                     type: array
                     items:
@@ -1900,10 +1900,9 @@ paths:
                 properties:
                   status:
                     type: string
-                    example: "200"
-                  message:
-                    type: string
-                    example: "Post liked"
+                    example: '200'
+                  message: type: string
+                    example: 'Post liked'
         '404':
           description: Post not found
         '500':
@@ -1947,7 +1946,7 @@ paths:
                 properties:
                   status:
                     type: string
-                    example: "200"
+                    example: '200'
                   data:
                     type: array
                     items:
@@ -1957,7 +1956,7 @@ paths:
                   metadata:
                     $ref: '#/components/schemas/PaginationMetadata'
                 example:
-                  status: "200"
+                  status: '200'
                   data: [1, 2, 3] # Example user IDs
                   metadata:
                     totalItems: 3
@@ -1994,10 +1993,9 @@ paths:
                 properties:
                   status:
                     type: string
-                    example: "200"
-                  message:
-                    type: string
-                    example: "Post reposted"
+                    example: '200'
+                  message: type: string
+                    example: 'Post reposted'
         '404':
           description: Post not found
         '500':
@@ -2041,7 +2039,7 @@ paths:
                 properties:
                   status:
                     type: string
-                    example: "200"
+                    example: '200'
                   data:
                     type: array
                     items:
@@ -2051,7 +2049,7 @@ paths:
                   metadata:
                     $ref: '#/components/schemas/PaginationMetadata'
                 example:
-                  status: "200"
+                  status: '200'
                   data: [4, 5, 6] # Example user IDs
                   metadata:
                     totalItems: 3
@@ -2087,7 +2085,7 @@ paths:
                 properties:
                   status:
                     type: string
-                    example: "200"
+                    example: '200'
                   data:
                     type: object
                     properties:
@@ -2098,7 +2096,7 @@ paths:
                       summary:
                         type: string
                         description: The AI-generated summary of the post content.
-                        example: "User discussed a super duper post content, focusing on its visibility to everyone."
+                        example: 'User discussed a super duper post content, focusing on its visibility to everyone.'
         '404':
           description: Post not found
         '500':
@@ -2190,6 +2188,121 @@ paths:
                 properties:
                   status: { type: string, example: fail }
                   message: { type: string, example: Message could not be sent }
+
+  /messages/{messageId}:
+    patch:
+      tags: [Messages]
+      summary: Edit a message
+      description: Updates the text content of an existing message
+      parameters:
+        - name: messageId
+          in: path
+          required: true
+          schema: { type: string }
+          description: The ID of the message to edit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [text]
+              properties:
+                text: { type: string, example: 'Updated message text' }
+      responses:
+        200:
+          description: Message updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: success }
+                  data:
+                    type: object
+                    properties:
+                      messageId: { type: string }
+                      senderId: { type: string }
+                      text: { type: string }
+                      sentAt: { type: string, format: date-time }
+                      editedAt: { type: string, format: date-time }
+        400:
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: { type: string, example: Invalid message data }
+        403:
+          description: Forbidden - User does not own the message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: {
+                      type: string,
+                      example: You can only edit your own messages,
+                    }
+        404:
+          description: Message not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: { type: string, example: Message not found }
+
+    delete:
+      tags: [Messages]
+      summary: Delete a message
+      description: Removes a message from a conversation
+      parameters:
+        - name: messageId
+          in: path
+          required: true
+          schema: { type: string }
+          description: The ID of the message to delete
+      responses:
+        200:
+          description: Message deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: success }
+                  data:
+                    type: object
+                    properties:
+                      messageId: { type: string }
+                      deletedAt: { type: string, format: date-time }
+        403:
+          description: Forbidden - User does not own the message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: {
+                      type: string,
+                      example: You can only delete your own messages,
+                    }
+        404:
+          description: Message not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: fail }
+                  message: { type: string, example: Message not found }
+
   /conversations:
     get:
       tags: [Conversations]
@@ -2396,12 +2509,12 @@ components:
         bio:
           type: string
           nullable: true
-          example: "bio"
+          example: 'bio'
           description: Short bio or description of the user.
         location:
           type: string
           nullable: true
-          example: "Egypt"
+          example: 'Egypt'
           description: User location.
         website:
           type: string
@@ -2498,7 +2611,7 @@ components:
           type: string
         type:
           type: string
-          enum: [ "POST", "REPLY", "QUOTE" ]
+          enum: ['POST', 'REPLY', 'QUOTE']
         parentId:
           type: integer
           format: int64
@@ -2506,7 +2619,7 @@ components:
           example: null
         visibility:
           type: string
-          enum: [ "EVERY_ONE", "FOLLOWERS", "MENTIONED" ]
+          enum: ['EVERY_ONE', 'FOLLOWERS', 'MENTIONED']
         media: # Added media array directly into the Post schema
           type: array
           items:
@@ -2517,11 +2630,11 @@ components:
         createdAt:
           type: string
           format: date-time
-          example: "2023-10-27T10:00:00Z"
+          example: '2023-10-27T10:00:00Z'
         updatedAt:
           type: string
           format: date-time
-          example: "2023-10-27T10:00:00Z"
+          example: '2023-10-27T10:00:00Z'
 
     PostResponse:
       type: object
@@ -2531,7 +2644,7 @@ components:
       properties:
         status:
           type: string
-          example: "200"
+          example: '200'
         data:
           $ref: '#/components/schemas/Post' # Use the Post schema for the data part
 
@@ -2546,16 +2659,16 @@ components:
           type: string
           format: uri
           description: URL to the hosted media file.
-          example: "https://your-cdn.com/posts/123/media/456.jpg"
+          example: 'https://your-cdn.com/posts/123/media/456.jpg'
         type:
           type: string
-          enum: [ "IMAGE", "VIDEO", "GIF", "AUDIO" ]
+          enum: ['IMAGE', 'VIDEO', 'GIF', 'AUDIO']
           description: The type of media content.
-          example: "IMAGE"
+          example: 'IMAGE'
         createdAt:
           type: string
           format: date-time
-          example: "2023-10-27T10:01:00Z"
+          example: '2023-10-27T10:01:00Z'
 
     PaginationMetadata:
       type: object
@@ -2582,7 +2695,7 @@ components:
       properties:
         status:
           type: string
-          example: "200"
+          example: '200'
         data:
           type: array
           items:
@@ -2590,17 +2703,17 @@ components:
         metadata:
           $ref: '#/components/schemas/PaginationMetadata'
       example:
-        status: "200"
+        status: '200'
         data:
           - id: 1
             userId: 1
-            content: "this is super duper post content"
-            type: "POST"
+            content: 'this is super duper post content'
+            type: 'POST'
             parentId: null
-            visibility: "EVERY_ONE"
+            visibility: 'EVERY_ONE'
             media: []
-            createdAt: "2023-10-27T10:00:00Z"
-            updatedAt: "2023-10-27T10:00:00Z"
+            createdAt: '2023-10-27T10:00:00Z'
+            updatedAt: '2023-10-27T10:00:00Z'
         metadata:
           totalItems: 1
           page: 1
@@ -2612,7 +2725,7 @@ components:
       properties:
         status:
           type: string
-          example: "200"
+          example: '200'
         data:
           type: array
           items:
@@ -2620,11 +2733,11 @@ components:
         metadata:
           $ref: '#/components/schemas/PaginationMetadata'
       example:
-        status: "200"
+        status: '200'
         data:
-          - hashtag: "OpenAPI"
+          - hashtag: 'OpenAPI'
             volume: 2500
-            country: "Global"
+            country: 'Global'
         metadata:
           totalItems: 1
           page: 1
@@ -2640,7 +2753,7 @@ components:
         hashtag:
           type: string
           description: The trending topic/hashtag text (without the #).
-          example: "AIRevolution"
+          example: 'AIRevolution'
         volume:
           type: integer
           description: The number of posts associated with this trend in the last hour/day.
@@ -2649,11 +2762,11 @@ components:
           type: string
           nullable: true
           description: Optional country scope for the trend.
-          example: "Global"
+          example: 'Global'
       example:
-        hashtag: "OpenAPI"
+        hashtag: 'OpenAPI'
         volume: 2500
-        country: "Global"
+        country: 'Global'
 
     Hashtag: # Schema for a single hashtag in search results
       type: object
@@ -2664,11 +2777,11 @@ components:
         hashtag:
           type: string
           description: The hashtag text (including the # symbol).
-          example: "#TechTalk"
+          example: '#TechTalk'
         postCount:
           type: integer
           description: The total number of posts associated with this hashtag.
           example: 12345
       example:
-        hashtag: "#developer"
+        hashtag: '#developer'
         postCount: 98765
