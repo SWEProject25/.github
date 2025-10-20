@@ -1901,7 +1901,8 @@ paths:
                   status:
                     type: string
                     example: '200'
-                  message: type: string
+                  message: 
+                    type: string
                     example: 'Post liked'
         '404':
           description: Post not found
@@ -1994,7 +1995,8 @@ paths:
                   status:
                     type: string
                     example: '200'
-                  message: type: string
+                  message: 
+                    type: string
                     example: 'Post reposted'
         '404':
           description: Post not found
