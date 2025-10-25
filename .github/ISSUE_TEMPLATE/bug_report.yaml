@@ -6,7 +6,7 @@ body:
   - type: input
     id: bug-id
     attributes:
-      label: Bug ID
+      label: 🔖 Bug ID
       description: Internal tracking ID (if applicable)
       placeholder: "BUG-1234"
     validations:
@@ -14,7 +14,7 @@ body:
   - type: textarea
     id: summary
     attributes:
-      label: Bug Summary
+      label: 📝 Bug Summary
       description: Brief, clear description of the defect
       placeholder: "Login button not responding on mobile devices"
     validations:
@@ -23,7 +23,7 @@ body:
   - type: textarea
     id: preconditions
     attributes:
-      label: Preconditions
+      label: ⚙️ Preconditions
       description: Setup/state required before reproducing
       placeholder: |
         - User must be logged out
@@ -34,7 +34,7 @@ body:
   - type: dropdown
     id: severity
     attributes:
-      label: Severity
+      label: 🚨 Severity
       options:
         - Blocker (stops testing/release)
         - Critical (major functionality broken)
@@ -43,11 +43,10 @@ body:
         - Trivial (cosmetic)
     validations:
       required: true
-
   - type: dropdown
     id: priority
     attributes:
-      label: Priority
+      label: 🎯 Priority
       options:
         - P0 (fix immediately)
         - P1 (fix before release)
@@ -59,7 +58,7 @@ body:
   - type: textarea
     id: steps
     attributes:
-      label: Steps to Reproduce
+      label: 🔄 Steps to Reproduce
       placeholder: |
         1. Navigate to login page
         2. Enter valid credentials
@@ -71,7 +70,7 @@ body:
   - type: textarea
     id: actual
     attributes:
-      label: Actual Result
+      label: ❌ Actual Result
       description: What actually happens (the bug)
       placeholder: "Login button does not respond, user remains on login page"
     validations:
@@ -80,7 +79,7 @@ body:
   - type: textarea
     id: expected
     attributes:
-      label: Expected Result
+      label: ✅ Expected Result
       description: What should happen
       placeholder: "User should be logged in and redirected to dashboard"
     validations:
@@ -89,7 +88,7 @@ body:
   - type: textarea
     id: logs
     attributes:
-      label: Error Messages/Logs
+      label: 📋 Error Messages/Logs
       description: Console errors, stack traces, log files
       render: shell
     validations:
@@ -98,7 +97,7 @@ body:
   - type: textarea
     id: attachments
     attributes:
-      label: Screenshots/Videos
+      label: 📸 Screenshots/Videos
       description: Visual evidence of the bug
     validations:
       required: false
