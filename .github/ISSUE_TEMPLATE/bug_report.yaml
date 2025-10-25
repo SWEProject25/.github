@@ -1,4 +1,4 @@
-name: Bug Report
+name: 🐛 Bug Report
 description: Bug report for testing team
 title: "[BUG] "
 labels: ["bug", "qa"]
@@ -21,15 +21,16 @@ body:
       required: true
   
   - type: textarea
-    id: preconditions
+    id: steps
     attributes:
-      label: ⚙️ Preconditions
-      description: Setup/state required before reproducing
+      label: 🔄 Steps to Reproduce
       placeholder: |
-        - User must be logged out
-        - Clear cache and cookies
+        1. Navigate to login page
+        2. Enter valid credentials
+        3. Click "Login" button
+        4. Observe no response
     validations:
-      required: false
+      required: true
   
   - type: dropdown
     id: severity
@@ -43,6 +44,7 @@ body:
         - Trivial (cosmetic)
     validations:
       required: true
+      
   - type: dropdown
     id: priority
     attributes:
@@ -55,18 +57,6 @@ body:
     validations:
       required: true
       
-  - type: textarea
-    id: steps
-    attributes:
-      label: 🔄 Steps to Reproduce
-      placeholder: |
-        1. Navigate to login page
-        2. Enter valid credentials
-        3. Click "Login" button
-        4. Observe no response
-    validations:
-      required: true
-  
   - type: textarea
     id: actual
     attributes:
