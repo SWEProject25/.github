@@ -62,7 +62,6 @@ Our organization is structured with dedicated teams, each led by experienced sub
 - Cross-Platform Development (5 members)
 - Testing & QA (2 members)
 - DevOps Engineering (1 member)
-- 
 ## Visit Us
 
 Experience our platform at [hankers.tech](https://hankers.tech)
