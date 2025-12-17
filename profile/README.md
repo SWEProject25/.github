@@ -1,44 +1,72 @@
 # Hankers
 
-A Twitter-like social network built as part of our Software Engineering course project, demonstrating modern software development practices and team collaboration.
+> A modern social networking platform
 
-## 🎯 Project Overview
+[![Website](https://img.shields.io/badge/Website-hankers.tech-blue)](https://hankers.tech)
 
-This project implements core social networking features similar to Twitter, including user authentication, posts (tweets), timelines, interactions, and more. Built using industry-standard tools and methodologies.
+## About Us
 
-## 🏗️ Architecture
+Hankers is a comprehensive social networking platform developed as part of an advanced Software Engineering project. Our platform replicates core functionalities of modern social media, providing users with a seamless experience for sharing content, connecting with others, and building online communities.
 
-- **Backend**: RESTful API with comprehensive authentication & authorization
-- **Frontend**: Responsive web application with AJAX-driven interactions
-- **Cross-Platform**: Mobile application supporting Android/iOS
-- **DevOps**: Containerized deployment with CI/CD pipelines
-- **Testing**: Unit tests (95%+ coverage), E2E tests (90%+ coverage), and stress testing
+## Project Overview
 
-## 👥 Team Structure
+This project demonstrates the complete software development lifecycle, from initial planning through deployment, incorporating industry-standard practices and modern development tools.
 
-- **Team Leader**: Project coordination & integration
-- **Backend Team**: API development & database design (5 members)
-- **Frontend Team**: Web interface & responsive design (5 members)
-- **Cross-Platform Team**: Mobile application (5 members)
-- **Testing Team**: Quality assurance & automated testing (2 members)
-- **DevOps**: Deployment, monitoring, and infrastructure
+### Key Features
 
-## 🛠️ Tech Stack
+- **User Management**: Complete authentication system with registration, login, password recovery, and email verification
+- **Social Interactions**: Post creation, sharing, likes, comments, and real-time updates
+- **Responsive Design**: Optimized for all devices and screen sizes
+- **RESTful API**: Well-documented backend services for seamless integration
+- **AI Integration**: Intelligent features powered by modern AI technologies
+- **Cross-Platform Support**: Available across multiple platforms for maximum accessibility
 
-*Details will be added as technologies are finalized in Phase 0*
+## Technology Stack
 
-## 🚀 Getting Started
+### Backend
+- Modern framework with RESTful API architecture
+- Robust database system with migrations and seeders
+- Auto-generated API documentation
+- Docker containerization
 
-*Setup instructions will be provided after initial development phase*
+### Frontend
+- Responsive web interface with AJAX capabilities
+- Mock services for independent development
+- Modern UI/UX design principles
 
-## 📝 License
+### DevOps
+- Cloud deployment with automated CI/CD pipeline
+- Dockerized architecture
+- Monitoring and logging systems
+- Linux-based infrastructure
 
-*License information will be specified based on dependencies used*
+### Testing
+- End-to-end testing
+- Comprehensive stress testing
+- Automated testing pipelines
 
-## 🤝 Contributing
+## Architecture
 
-This is an educational project. Team members should follow the established code style guides and submit regular progress reports.
+The project follows a multi-tier architecture with clear separation of concerns:
+- **Backend Team**: API development and database management
+- **Frontend Team**: User interface and client-side logic
+- **Cross-Platform Team**: Multi-platform application development
+- **Testing Team**: Quality assurance and validation
+- **DevOps Team**: Infrastructure and deployment automation
+
+## Team Structure
+
+Our organization is structured with dedicated teams, each led by experienced sub-team leaders:
+- Backend Development (5 members)
+- Frontend Development (5 members)
+- Cross-Platform Development (5 members)
+- Testing & QA (2 members)
+- DevOps Engineering (1 member)
+- 
+## Visit Us
+
+Experience our platform at [hankers.tech](https://hankers.tech)
 
 ---
 
-**Course**: Software Engineering | **Semester**: 2025
+**Note**: This project was developed following professional software engineering practices, emphasizing collaboration, quality assurance, and industry-standard development workflows.
