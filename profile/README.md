@@ -69,3 +69,175 @@ Experience our platform at [hankers.tech](https://hankers.tech)
 ---
 
 **Note**: This project was developed following professional software engineering practices, emphasizing collaboration, quality assurance, and industry-standard development workflows.
+
+## ✨ Organization Teams & Contributors
+
+---
+
+### 🎨 Frontend Team
+<table>
+<tr>
+  <td align="center">
+    <a href="https://github.com/Abdelrahman-Adel610">
+      <img src="https://github.com/Abdelrahman-Adel610.png" width="100">
+      <br />
+      <sub><b>Abdelrahman Adel</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/ahmedfathy0-0">
+      <img src="https://github.com/ahmedfathy0-0.png" width="100">
+      <br />
+      <sub><b>Ahmed Fathy</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/YousefAdel23">
+      <img src="https://github.com/YousefAdel23.png" width="100">
+      <br />
+      <sub><b>Yousef Adel</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/AMYasserF">
+      <img src="https://github.com/AMYasserF.png" width="100">
+      <br />
+      <sub><b>Ammar Yasser</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/engmohamed-emad">
+      <img src="https://github.com/engmohamed-emad.png" width="100">
+      <br />
+      <sub><b>Mohamed Emad</b></sub>
+    </a>
+  </td>
+</tr>
+</table>
+
+---
+
+### 🔄 Cross Team
+<table>
+<tr>
+  <td align="center">
+    <a href="https://github.com/ZiadMontaser">
+      <img src="https://github.com/ZiadMontaser.png" width="100">
+      <br />
+      <sub><b>Ziad Montaser</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/faroukmohamed2">
+      <img src="https://github.com/faroukmohamed2.png" width="100">
+      <br />
+      <sub><b>Farouk Mohamed</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/HossamMo123">
+      <img src="https://github.com/HossamMo123.png" width="100">
+      <br />
+      <sub><b>Hossam Mohamed</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/mohamed-yasser23">
+      <img src="https://github.com/mohamed-yasser23.png" width="100">
+      <br />
+      <sub><b>Mohamed Yasser</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/Uderscore">
+      <img src="https://github.com/Uderscore.png" width="100">
+      <br />
+      <sub><b>Mazen Hatem</b></sub>
+    </a>
+  </td>
+</tr>
+</table>
+
+---
+
+### ⚙️ Backend Team
+<table>
+<tr>
+  <td align="center">
+    <a href="https://github.com/OmarNabil005">
+      <img src="https://github.com/OmarNabil005.png" width="100">
+      <br />
+      <sub><b>Omar Nabil</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/Salah3060">
+      <img src="https://github.com/Salah3060.png" width="100">
+      <br />
+      <sub><b>Salah Mostafa</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/ahmedGamalEllabban">
+      <img src="https://github.com/ahmedGamalEllabban.png" width="100">
+      <br />
+      <sub><b>Ahmed Ellabban</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/mohamed-sameh-albaz">
+      <img src="https://github.com/mohamed-sameh-albaz.png" width="100">
+      <br />
+      <sub><b>Mohamed Albaz</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/YousefAref72">
+      <img src="https://github.com/YousefAref72.png" width="100">
+      <br />
+      <sub><b>Yousef Aref</b></sub>
+    </a>
+  </td>
+</tr>
+</table>
+
+
+---
+
+### 🧪 Testing Team
+<table>
+<tr>
+  <td align="center">
+    <a href="https://github.com/MoMoAymn">
+      <img src="https://github.com/MoMoAymn.png" width="100">
+      <br />
+      <sub><b>Mohamed Ayman</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/AhmedFouad23">
+      <img src="https://github.com/AhmedFouad23.png" width="100">
+      <br />
+      <sub><b>Ahmed Foad</b></sub>
+    </a>
+  </td>
+</tr>
+</table>
+
+---
+
+### 🛠️ DevOps Team
+<table>
+<tr>
+  <td align="center">
+    <a href="https://github.com/karimzakzouk">
+      <img src="https://github.com/karimzakzouk.png" width="100">
+      <br />
+      <sub><b>Karim Farid</b></sub>
+    </a>
+  </td>
+</tr>
+</table>
+
+
+
