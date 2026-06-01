@@ -1,9 +1,7 @@
 # Hankers
 
 > A modern social networking platform
-
-[![Website](https://img.shields.io/badge/Website-hankers.tech-blue)](https://hankers.tech)
-
+Note: Infrastructure decommissioned after project completion.
 ## About Us
 
 Hankers is a comprehensive social networking platform developed as part of an advanced Software Engineering project. Our platform replicates core functionalities of modern social media, providing users with a seamless experience for sharing content, connecting with others, and building online communities.
@@ -62,9 +60,6 @@ Our organization is structured with dedicated teams, each led by experienced sub
 - Cross-Platform Development (5 members)
 - Testing & QA (2 members)
 - DevOps Engineering (1 member)
-## Visit Us
-
-Experience our platform at [hankers.tech](https://hankers.tech)
 
 ---
 
